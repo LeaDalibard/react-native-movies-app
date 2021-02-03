@@ -11,6 +11,7 @@ class Search extends React.Component {
         this.searchedText='';
         this.state={
             films:[],
+            isLoading: false
         };
     }
 
@@ -20,8 +21,12 @@ class Search extends React.Component {
 
     _loadFilms() {
         if( this.searchedText.length>0){
+            this.setState({isLoading:true});
             getFilmsFromApiWithSearchedText(this.searchedText).then(data => {
-                this.setState({films:data.results});
+                this.setState({
+                    films:data.results,
+                    isLoading:false
+                });
             });
         }
     }
