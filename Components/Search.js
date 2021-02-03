@@ -31,9 +31,10 @@ class Search extends React.Component {
         return (
             <View style={styles.main_container}>
                 <TextInput
-                    style={[styles.textinput, {marginBottom: 10}]}
+                    style={styles.textinput}
                     placeholder='Movie title'
                     onChangeText={(text)=>this._searchTextInputChanged(text)}
+                    onSubmitEditing={()=>this._loadFilms()}
                 />
                 <Button title='Search' onPress={() => {
                     this._loadFilms()
