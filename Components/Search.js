@@ -23,7 +23,7 @@ class Search extends React.Component {
             this.setState({ isLoading: true })
             getFilmsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
                 this.page = data.page
-                this.totalPages = data.total_pages
+                this.totalPages = data.total_pagesg
                 this.setState({
                     films: [ ...this.state.films, ...data.results ],
                     isLoading: false
@@ -61,11 +61,11 @@ class Search extends React.Component {
             <View style={styles.main_container}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder='Titre du film'
+                    placeholder='Movie title'
                     onChangeText={(text) => this._searchTextInputChanged(text)}
                     onSubmitEditing={() => this._searchFilms()}
                 />
-                <Button title='Rechercher' onPress={() => this._searchFilms()}/>
+                <Button title='Search' onPress={() => this._searchFilms()}/>
                 <FlatList
                     data={this.state.films}
                     keyExtractor={(item) => item.id.toString()}
