@@ -58,6 +58,12 @@ class Search extends React.Component {
                     data={this.state.films}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({item}) => <FilmItem film={item}/>}
+                    onEndReachedThreshold={0.5}
+                    onEndReached={
+                        ()=>{
+                            console.log("onEndReached")
+                        }
+                    }
                 />
                 {this._displayLoading()}
             </View>
