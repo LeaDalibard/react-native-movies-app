@@ -14,7 +14,7 @@ export default class App extends React.Component {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Search" component={Search} />
-              <Stack.Screen name="Details" component={FilmDetail} />
+              <Stack.Screen name="FilmDetail" component={FilmDetail} />
           </Stack.Navigator>
         </NavigationContainer>
     )

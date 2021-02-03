@@ -5,7 +5,7 @@ class FilmDetail extends React.Component{
     render(){
         return(
             <View style={styles.main_container}>
-                <Text>Film Details</Text>
+                <Text>Film Details  {this.props.navigation.state.params.idFilm}</Text>
             </View>
         )
     }
