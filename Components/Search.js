@@ -9,42 +9,56 @@ class Search extends React.Component {
 
     constructor(props) {
         super(props)
-        this.searchedText=''
-        this.page=0
-        this.totalPages=0
-        this.state={
-            films:[],
+        this.searchedText = ''
+        this.page = 0
+        this.totalPages = 0
+        this.state = {
+            films: [],
             isLoading: false
         }
     }
 
-    _searchTextInputChanged(text){
-        this.searchedText=text;
+    _searchTextInputChanged(text) {
+        this.searchedText = text;
     }
 
     _loadFilms() {
-        if( this.searchedText.length>0){
-            this.setState({isLoading:true});
-            getFilmsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
-                this.page=data.page
-                this.totalPages=data.total_pages
+        if (this.searchedText.length > 0) {
+            this.setState({isLoading: true});
+            getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then(data => {
+                this.page = data.page
+                this.totalPages = data.total_pages
                 this.setState({
-                    films:[...this.state.films,...data.results],
+                    films: [...this.state.films, ...data.results],
                     //permet de faire concat des tableaux, écrase pas, rajoute les données
-                    isLoading:false
+                    isLoading: false
                 });
             });
         }
     }
 
-    _displayLoading(){
-        if(this.state.isLoading){
-            return(
+    _displayLoading() {
+        if (this.state.isLoading) {
+            return (
                 <View style={styles.loading_container}>
-                    <ActivityIndicator size='large'/>
+                    <ActivityIndicator size='large' />
                 </View>
             )
         }
+    }
+
+    _searchFilms() {
+        this.page = 0
+        this.totalPages = 0
+        this.setState({
+                films: [],
+            },
+            () => {
+                console.log("Page : " + this.page + " / TotalPages : " + this.totalPages + " / Nombre de films : " + this.state.films.length)
+                this._loadFilms()
+            }
+        )
+        //loadingFilms in the callback of setState because setState is asynchrone and we want to be set to 0 before loading the new search
     }
 
     render() {
@@ -53,11 +67,11 @@ class Search extends React.Component {
                 <TextInput
                     style={styles.textinput}
                     placeholder='Movie title'
-                    onChangeText={(text)=>this._searchTextInputChanged(text)}
-                    onSubmitEditing={()=>this._loadFilms()}
+                    onChangeText={(text) => this._searchTextInputChanged(text)}
+                    onSubmitEditing={() => this._searchFilms()}
                 />
                 <Button title='Search' onPress={() => {
-                    this._loadFilms()
+                    this._searchFilms()
                 }}/>
                 <FlatList
                     data={this.state.films}
@@ -65,8 +79,8 @@ class Search extends React.Component {
                     renderItem={({item}) => <FilmItem film={item}/>}
                     onEndReachedThreshold={0.5}
                     onEndReached={
-                        ()=>{
-                            if(this.page<this.totalPages){
+                        () => {
+                            if (this.page < this.totalPages) {
                                 this._loadFilms()
                             }
                         }
@@ -92,14 +106,14 @@ const styles = StyleSheet.create(
             borderWidth: 1,
             paddingLeft: 5,
         },
-        loading_container:{
-            position:'absolute',
-            left:0,
-            right:0,
-            top:100,
-            bottom:0,
-            alignItems:'center',
-            justifyContent:'center'
+        loading_container: {
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 100,
+            bottom: 0,
+            alignItems: 'center',
+            justifyContent: 'center'
         }
     }
 )
