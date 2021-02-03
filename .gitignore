@@ -1,4 +1,5 @@
-node_modules/**/*
+ API
+ node_modules/**/*
 .expo/*
 npm-debug.*
 *.jks
@@ -11,4 +12,4 @@ web-build/
 .idea/*
 # macOS
 .DS_Store
-API/TMBApi.js
+

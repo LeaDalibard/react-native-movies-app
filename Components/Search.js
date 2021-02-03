@@ -2,13 +2,20 @@ import React from 'react'
 import {StyleSheet, View, TextInput, Button, Text, FlatList} from 'react-native'
 import films from '../Helpers/filmsData'
 import FilmItem from "./FilmItem";
+import {getFilmsFromApiWithSearchedText} from "../API/TMBApi";
 
 class Search extends React.Component {
+
+    _loadFilms() {
+        getFilmsFromApiWithSearchedText("star").then(data => console.log(data));
+    }
+
     render() {
         return (
             <View style={styles.main_container}>
                 <TextInput style={[styles.textinput, {marginBottom: 10}]} placeholder='Movie title'/>
                 <Button title='Search' onPress={() => {
+                    this._loadFilms()
                 }}/>
                 <FlatList
                     data={films}
