@@ -8,13 +8,12 @@ class Search extends React.Component {
 
     constructor(props) {
         super(props);
-        this._films=[];
+        this.state={films:[]};
     }
 
     _loadFilms() {
         getFilmsFromApiWithSearchedText("star").then(data => {
-            this._films=data.results;
-            this.forceUpdate();
+            this.setState({films:data.results});
         });
     }
 
@@ -26,7 +25,7 @@ class Search extends React.Component {
                     this._loadFilms()
                 }}/>
                 <FlatList
-                    data={this._films}
+                    data={this.state.films}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({item}) => <FilmItem film={item}/>}
                 />
