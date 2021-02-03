@@ -8,12 +8,14 @@ import useAndroidRippleForView from "react-native/Libraries/Components/Pressable
 class Search extends React.Component {
 
     constructor(props) {
-        super(props);
-        this.searchedText='';
+        super(props)
+        this.searchedText=''
+        this.page=0
+        this.totalPages=0
         this.state={
             films:[],
             isLoading: false
-        };
+        }
     }
 
     _searchTextInputChanged(text){
@@ -23,9 +25,12 @@ class Search extends React.Component {
     _loadFilms() {
         if( this.searchedText.length>0){
             this.setState({isLoading:true});
-            getFilmsFromApiWithSearchedText(this.searchedText).then(data => {
+            getFilmsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
+                this.page=data.page
+                this.totalPages=data.total_pages
                 this.setState({
-                    films:data.results,
+                    films:[...this.state.films,...data.results],
+                    //permet de faire concat des tableaux, écrase pas, rajoute les données
                     isLoading:false
                 });
             });
@@ -61,7 +66,9 @@ class Search extends React.Component {
                     onEndReachedThreshold={0.5}
                     onEndReached={
                         ()=>{
-                            console.log("onEndReached")
+                            if(this.page<this.totalPages){
+                                this._loadFilms()
+                            }
                         }
                     }
                 />
